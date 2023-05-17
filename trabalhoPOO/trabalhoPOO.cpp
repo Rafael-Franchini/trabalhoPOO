@@ -1,9 +1,25 @@
 //Rafael Alexandre Lima Franchini  109179
 //Danilo Henrique Muller 105918
 //Otávio Augusto Delatorre Fadini 108999
+
+
 #include <iostream>
+#include <string>
+#include <vector>
+
 
 using namespace std;
+
+class estacao{
+private:
+	string nome;
+	vector<string>links;
+public:
+	estacao();	
+	void setNome(string nome);
+	string getNome();
+};
+
 
 int main(){
 
