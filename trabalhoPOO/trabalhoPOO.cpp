@@ -53,7 +53,8 @@ string estacao::getLink() {
 }
 class metro {
 private:
-	estacao matriz[10][10];
+	estacao matriz[26][26];
+	vector<string>alfabeto{[0]="A",[1]="B"}
 public:
 	metro();
 	void addEst();
@@ -88,10 +89,21 @@ void metro::addEst() {
 	}
 	cout << "Digite as coordenadas (x y) da estação que deseja adicionar :" << endl;
 	cin >> aux2>>aux3;
-	for (int i = 0; i < 10; i++) {
-		matriz[aux2][aux3] = auxest;
+	if (aux2!=aux3) {
+		for (int i = 0; i < 10; i++) {
+			if (matriz[aux2][aux3].getNome() == " " && matriz[aux3][aux2].getNome() == " ") {
+				matriz[aux2][aux3] = auxest;
+				matriz[aux3][aux2] = auxest;
+				cout << "Objeto adicionado com sucesso";
+			}
+			else {
+				cout << "Ja existe uma estação nessa coordenada" << endl;
+			}
+		}
 	}
-	cout << "Objeto adicionado com sucesso";
+	else {
+		cout << "uma estação nao pode ter conexao com ela mesma" << endl;
+	}
 }
 //remover estação
 void metro::removeEst() {
@@ -101,6 +113,7 @@ void metro::removeEst() {
 	cin >> aux2 >> aux3;
 	for (int i = 0; i < 10; i++) {
 		matriz[aux2][aux3] = est;
+		matriz[aux3][aux2] = est;
 	}
 	cout << "Objeto removido com sucesso";
 }
@@ -170,9 +183,10 @@ void metro::imprime(int valor) {
 		break;
 	}
 }
+
 int main(){
 	metro o1;
-	int op;
+	int op,op2;
 	do{
 		cout << "0  Parar execucao " << endl
 			<< "1 criar o grafo  " << endl
@@ -191,16 +205,16 @@ int main(){
 				break;
 
 			case 1:
-				cout<<"Voce escolheu criar o grafo "<<endl; 
+				cout<<"Voce escolheu criar o grafo (lista e matriz)"<<endl; 
 				o1.imprime(0);
 				break;
-			
 			case 2:
 				cout<<"Voce escolheu adicionar estação"<<endl; 
+				o1.addEst();
 				break;
-
 			case 3:
 				cout<<" Voce escolheu remover estação"<<endl;
+				o1.removeEst();
 				break;
 			case 4:
 				cout << " Voce escolheu busca por uma estação" << endl;
@@ -216,6 +230,11 @@ int main(){
 				break;
 			case 8:
 				cout << "Voce escolheu  imprimir o sistema metroviário criado" << endl;
+				cout << "0  imprimir matriz e lista " << endl
+					<< "1  imprimir matriz " << endl
+					<< "2  imprimir lista " << endl;
+				cin >> op2;
+				o1.imprime(op2);
 				break;
 			default:
 				cout<<"Opção invalida tente novamente"<<endl;
