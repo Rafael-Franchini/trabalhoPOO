@@ -213,13 +213,13 @@ int main(){
 	do{
 		cout << "0  Parar execucao " << endl
 			<< "1 criar o grafo  " << endl
-			<< "2  adicionar estação  " << endl
-			<< "3  remover estação " << endl
-			<< "4  busca por uma estação " << endl
-			<< "5  encontrar um caminho determinado entre uma estação e outra retornando o tempo do caminho encontrado, bem como as estações intermediárias " << endl
-			<< "6 encontrar o menor caminho entre uma estação e outra retornando o tempo encontrado e asestações intermediárias " << endl
-			<< "7  encontrar o mínimo de arestas que constroem o mesmo sistema metroviário " << endl
-			<< "8  imprimir o sistema metroviário criado(o usuário escolhe se quer a lista ou a matriz)" << endl
+			<< "2  adicionar estacao  " << endl
+			<< "3  remover estacao " << endl
+			<< "4  busca por uma estacao " << endl
+			<< "5  encontrar um caminho determinado entre uma estacao e outra retornando o tempo do caminho encontrado " << endl
+			<< "6 encontrar o menor caminho entre uma estacao e outra retornando o tempo encontrado e asestacoes no caminho " << endl
+			<< "7  encontrar o mínimo de arestas que constroem o mesmo sistema metroviario " << endl
+			<< "8  imprimir o sistema metroviario criado(o usuário escolhe se quer a lista ou a matriz)" << endl
 			<< "Digite o numero da opcao desejada:" << endl;
 		cin>>op;
 		switch (op){
@@ -230,35 +230,34 @@ int main(){
 			case 1:
 				cout<<"Voce escolheu criar o grafo (lista e matriz)"<<endl; 
 				o1.imprime(0);
-				break;
-			case 2:
-				cout<<"Voce escolheu adicionar estação"<<endl; 
+				break;			case 2:
+				cout<<"Voce escolheu adicionar estacao"<<endl; 
 				o1.addEst();
 				break;
 			case 3:
-				cout<<" Voce escolheu remover estação"<<endl;
+				cout<<" Voce escolheu remover estacao"<<endl;
 				o1.removeEst();
 				break;
 			case 4:
-				cout << " Voce escolheu busca por uma estação" << endl;
+				cout << " Voce escolheu busca por uma estacao" << endl;
 				cout << "digite a sigla da estacao que deseja buscar : " << endl;
 				cin>>temp;
 				o1.buscaest(temp);
 				break;
 			case 5:
-				cout << " Voce escolheu encontrar um caminho determinado entre uma estação e outra " << endl;
+				cout << " Voce escolheu encontrar um caminho determinado entre uma estacao e outra " << endl;
 				cout << "funcao nao foi criada";
 				break;
 			case 6:
-				cout << " Voce escolheu encontrar o menor caminho entre uma estação e outra retornando o tempo encontrado e asestações intermediárias" << endl;
+				cout << " Voce escolheu encontrar o menor caminho entre uma estacao e outra retornando o tempo encontrado e as estacoes no caminho" << endl;
 				cout << "funcao nao foi criada";
 				break;
 			case 7:
-				cout << "Voce escolheu  encontrar o mínimo de arestas que constroem o mesmo sistema metroviário" << endl;
+				cout << "Voce escolheu  encontrar o mínimo de arestas que constroem o mesmo sistema metroviario" << endl;
 				cout << "funcao nao foi criada";
 				break;
 			case 8:
-				cout << "Voce escolheu  imprimir o sistema metroviário criado" << endl;
+				cout << "Voce escolheu  imprimir o sistema metroviario criado" << endl;
 				cout << "0  imprimir matriz e lista " << endl
 					<< "1  imprimir matriz " << endl
 					<< "2  imprimir lista " << endl;
