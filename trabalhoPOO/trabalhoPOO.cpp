@@ -17,6 +17,7 @@ private:
 	vector <string>link;
 public:
 	estacao();	
+	estacao(string nome, string sigla);
 	void setNome(string nome);
 	void setSigla(string sigla);
 	void setLink(string link);
@@ -24,6 +25,10 @@ public:
 	string getSigla();
 	string getLink();
 };
+estacao::estacao(string nome, string sigla) {
+	this->nome = nome;
+	this->sigla = sigla;
+}
 estacao::estacao() {
 	nome = " ";
 	sigla = " ";
@@ -54,21 +59,21 @@ string estacao::getLink() {
 class metro {
 private:
 	estacao matriz[26][26];
-	vector<string>alfabeto{[0]="A",[1]="B"}
 public:
 	metro();
 	void addEst();
 	void removeEst();
 	void imprime(int valor);
+	void buscaest(string sigla);
 };
 metro::metro() {
 	estacao est;
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			matriz[i][j]=est;
+			matriz[i][j] = est;
 		}
 	}
-}
+};
 //adicionar estação
 void metro::addEst() {
 	estacao auxest;
@@ -128,7 +133,7 @@ void metro::imprime(int valor) {
 				if (matriz[i][j].getNome() != " ") {
 					cout << "estacao " << i << j << " sigla :" << matriz[i][j].getSigla() << " Possui Links com estacoes : " << endl;
 					for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
-						cout << matriz[i][j].getLink()[k] << " " l;
+						cout << matriz[i][j].getLink()[k] << " " ;
 					}
 					cout << endl;
 				}
@@ -170,7 +175,7 @@ void metro::imprime(int valor) {
 				if (matriz[i][j].getNome() != " ") {
 					cout << "estacao " << i << j <<" sigla :" << matriz[i][j].getSigla() << " Possui Links com estacoes : " << endl;
 					for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
-						cout << matriz[i][j].getLink()[k] << " " l;
+						cout << matriz[i][j].getLink()[k] << " " ;
 					}
 					cout << endl;
 				}
@@ -183,10 +188,28 @@ void metro::imprime(int valor) {
 		break;
 	}
 }
-
+//busca por uma estação
+void metro::buscaest(string sigla) {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (matriz[i][j].getSigla() == sigla) {
+				cout << "esta estacao esta na coordenada " << i << j <<" OU "<<j<<i << "ja que e uma matriz de adjacencia" <<endl 
+					<< "NOME = " << matriz[i][j].getNome() << endl 
+					<< "SIGLA = " << matriz[i][j].getSigla() <<endl
+					<<"tem coneccoes com :";
+				for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
+					cout << matriz[i][j].getLink()[k] << ",";
+				}
+			}
+		}
+	}
+	cout<<endl<<"Caso nao tenha aparecido nada e porque nao existe uma estacao com essa sigla"<<endl;
+}
 int main(){
+	
 	metro o1;
 	int op,op2;
+	string temp;
 	do{
 		cout << "0  Parar execucao " << endl
 			<< "1 criar o grafo  " << endl
@@ -218,15 +241,21 @@ int main(){
 				break;
 			case 4:
 				cout << " Voce escolheu busca por uma estação" << endl;
+				cout << "digite a sigla da estacao que deseja buscar : " << endl;
+				cin>>temp;
+				o1.buscaest(temp);
 				break;
 			case 5:
 				cout << " Voce escolheu encontrar um caminho determinado entre uma estação e outra " << endl;
+				cout << "funcao nao foi criada";
 				break;
 			case 6:
 				cout << " Voce escolheu encontrar o menor caminho entre uma estação e outra retornando o tempo encontrado e asestações intermediárias" << endl;
+				cout << "funcao nao foi criada";
 				break;
 			case 7:
 				cout << "Voce escolheu  encontrar o mínimo de arestas que constroem o mesmo sistema metroviário" << endl;
+				cout << "funcao nao foi criada";
 				break;
 			case 8:
 				cout << "Voce escolheu  imprimir o sistema metroviário criado" << endl;
