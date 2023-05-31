@@ -58,69 +58,71 @@ string estacao::getLink() {
 }
 class metro {
 private:
-	estacao matriz[26][26];
+	vector <estacao> lista;
+	int matrizadj[26][26];
 public:
 	metro();
 	void addEst();
+	void addEsta(estacao e1);
+	void addLink();
 	void removeEst();
 	void imprime(int valor);
 	void buscaest(string sigla);
 };
 metro::metro() {
-	estacao est;
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			matriz[i][j] = est;
+			matrizadj[i][j] = 0;
 		}
 	}
 };
+void metro::addEsta(estacao e1) {
+	lista.push_back(e1);
+}
 //adicionar estação
 void metro::addEst() {
 	estacao auxest;
 	string temp;
-	int aux,aux2,aux3;
 	cout << "Digite o nome da estação que deseja adicionar" << endl;
 	cin >> temp;
 	auxest.setNome(temp);
 	cout << "Digite a sigla da estação que deseja adicionar" << endl;
 	cin >> temp;
 	auxest.setSigla(temp);
-	cout<<"quantas conecoes esta estação tem?"<<endl;
-	cin >>aux;
-	for (int j = 0; j< aux; j++) {
-		cout<<"Digite a sigla da estação que deseja adicionar"<<endl;
-		cin >> temp;
-		auxest.setLink(temp);
-	}
-	cout << "Digite as coordenadas (x y) da estação que deseja adicionar :" << endl;
-	cin >> aux2>>aux3;
-	if (aux2!=aux3) {
-		for (int i = 0; i < 10; i++) {
-			if (matriz[aux2][aux3].getNome() == " " && matriz[aux3][aux2].getNome() == " ") {
-				matriz[aux2][aux3] = auxest;
-				matriz[aux3][aux2] = auxest;
-				cout << "Objeto adicionado com sucesso";
-			}
-			else {
-				cout << "Ja existe uma estação nessa coordenada" << endl;
+	lista.push_back(auxest);
+	cout << "estacao adicionado com sucesso"<<endl;
+}
+//add link
+void metro::addLink() {
+	string aux,aux2;
+	cout << "Digite a estacao que voce deseja adicionar o link: "<<endl;
+	cin>> aux;
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getSigla() == aux) {
+			cout << "Digite a sigla da estacao que deseja adicionar" << endl;
+			cin >> aux2;
+			lista[i].setLink(aux2);
+			for (int j = 0; j < lista.size(); j++) {
+				if (lista[j].getSigla() == aux2) {
+					matrizadj[i][j] = 1;
+					matrizadj[j][i] = 1;
+				}
 			}
 		}
-	}
-	else {
-		cout << "uma estação nao pode ter conexao com ela mesma" << endl;
 	}
 }
 //remover estação
 void metro::removeEst() {
-	estacao est;
-	int aux2,aux3;
-	cout << "Digite as coordenadas (x y) da estação que deseja adicionar :" << endl;
-	cin >> aux2 >> aux3;
-	for (int i = 0; i < 10; i++) {
-		matriz[aux2][aux3] = est;
-		matriz[aux3][aux2] = est;
+	string aux;
+	cout << "Digite a sigla  estação que deseja remover :" << endl;
+	cin >> aux;
+	
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getSigla() == aux) {
+			lista.erase(lista.begin() + i);
+		}
 	}
-	cout << "Objeto removido com sucesso";
+	cout << "estacao removida com sucesso";
 }
 //imprimir matriz ou lista
 void metro::imprime(int valor) {
@@ -128,41 +130,23 @@ void metro::imprime(int valor) {
 	case 0://matriz && lista
 		cout << "lista:" << endl;
 		//lista
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (matriz[i][j].getNome() != " ") {
-					cout << "estacao " << i << j << " sigla :" << matriz[i][j].getSigla() << " Possui Links com estacoes : " << endl;
-					for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
-						cout << matriz[i][j].getLink()[k] << " " ;
-					}
-					cout << endl;
-				}
-			}
+		for (int i = 0; i < lista.size(); i++) {
+			cout<<"estacao: "<< lista[i].getNome() << " sigla: " << lista[i].getSigla() << "Links: " << lista[i].getLink() << endl;
 		}
 		cout << "matriz:"<<endl;
 		//matriz
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (matriz[i][j].getNome()!=" ") {
-					cout << matriz[i][j].getSigla()<<" ";
-				}
-				else {
-					cout << 0;
-				}
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				cout<<matrizadj[i][j]<<" ";
 			}
 			cout << endl;
 		}
 		cout << endl << "caso nao apareca nada e porque nao ha estacoes adicionadas" << endl;
 		break;
 	case 1://matriz
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (matriz[i][j].getNome() != " ") {
-					cout << matriz[i][j].getSigla() << " ";
-				}
-				else {
-					cout << 0;
-				}
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				cout << matrizadj[i][j] << " ";
 			}
 			cout << endl;
 		}
@@ -170,16 +154,8 @@ void metro::imprime(int valor) {
 		break;
 	case 2://lista
 		cout << "lista:" << endl;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (matriz[i][j].getNome() != " ") {
-					cout << "estacao " << i << j <<" sigla :" << matriz[i][j].getSigla() << " Possui Links com estacoes : " << endl;
-					for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
-						cout << matriz[i][j].getLink()[k] << " " ;
-					}
-					cout << endl;
-				}
-			}
+		for (int i = 0; i < lista.size(); i++) {
+			cout << "estacao: " << lista[i].getNome() << " sigla: " << lista[i].getSigla() << "Links: " << lista[i].getLink() << endl;
 		}
 		cout <<endl <<"caso nao apareca nada e porque nao ha estacoes adicionadas" << endl;
 		break;
@@ -190,36 +166,28 @@ void metro::imprime(int valor) {
 }
 //busca por uma estação
 void metro::buscaest(string sigla) {
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (matriz[i][j].getSigla() == sigla) {
-				cout << "esta estacao esta na coordenada " << i << j <<" OU "<<j<<i << "ja que e uma matriz de adjacencia" <<endl 
-					<< "NOME = " << matriz[i][j].getNome() << endl 
-					<< "SIGLA = " << matriz[i][j].getSigla() <<endl
-					<<"tem coneccoes com :";
-				for (int k = 0; k < matriz[i][j].getLink().size(); k++) {
-					cout << matriz[i][j].getLink()[k] << ",";
-				}
-			}
-		}
-	}
+	
 	cout<<endl<<"Caso nao tenha aparecido nada e porque nao existe uma estacao com essa sigla"<<endl;
 }
 int main(){
-	
+	estacao e1("lapa","LP"), e2("Morumbi","MR"), e3("Luiz","LZ");
 	metro o1;
+	o1.addEsta(e1);
+	o1.addEsta(e2);
+	o1.addEsta(e3);
 	int op,op2;
 	string temp;
 	do{
 		cout << "0  Parar execucao " << endl
-			<< "1 criar o grafo  " << endl
+			<< "1 criar o grafo (lista e matriz adjacencia)  " << endl
 			<< "2  adicionar estacao  " << endl
 			<< "3  remover estacao " << endl
 			<< "4  busca por uma estacao " << endl
 			<< "5  encontrar um caminho determinado entre uma estacao e outra retornando o tempo do caminho encontrado " << endl
 			<< "6 encontrar o menor caminho entre uma estacao e outra retornando o tempo encontrado e asestacoes no caminho " << endl
 			<< "7  encontrar o mínimo de arestas que constroem o mesmo sistema metroviario " << endl
-			<< "8  imprimir o sistema metroviario criado(o usuário escolhe se quer a lista ou a matriz)" << endl
+			<< "8  imprimir o sistema metroviario criado(o usuário escolhe se quer a lista ou a matriz adjacencia)" << endl
+			<< "9  Adicionar link a uma estacao" << endl
 			<< "Digite o numero da opcao desejada:" << endl;
 		cin>>op;
 		switch (op){
@@ -228,7 +196,7 @@ int main(){
 				break;
 
 			case 1:
-				cout<<"Voce escolheu criar o grafo (lista e matriz)"<<endl; 
+				cout<<"Voce escolheu criar o grafo (lista e matriz adjacencia)"<<endl; 
 				o1.imprime(0);
 				break;			case 2:
 				cout<<"Voce escolheu adicionar estacao"<<endl; 
@@ -258,11 +226,15 @@ int main(){
 				break;
 			case 8:
 				cout << "Voce escolheu  imprimir o sistema metroviario criado" << endl;
-				cout << "0  imprimir matriz e lista " << endl
-					<< "1  imprimir matriz " << endl
+				cout << "0  imprimir matriz adjacencia e lista " << endl
+					<< "1  imprimir matriz adjacencia " << endl
 					<< "2  imprimir lista " << endl;
 				cin >> op2;
 				o1.imprime(op2);
+				break;
+			case 9:
+				cout<<"Voce escolheu adicionar link"<<endl;
+				o1.addLink();
 				break;
 			default:
 				cout<<"Opção invalida tente novamente"<<endl;
