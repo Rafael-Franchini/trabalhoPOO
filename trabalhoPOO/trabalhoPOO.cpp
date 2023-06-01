@@ -1,6 +1,4 @@
-//Rafael Alexandre Lima Franchini  109179
-//Danilo Henrique Muller 105918
-//Otávio Augusto Delatorre Fadini 108999
+\
 
 
 #include <iostream>
@@ -59,12 +57,13 @@ string estacao::getLink() {
 class metro {
 private:
 	vector <estacao> lista;
-	int matrizadj[26][26];
+	int matrizadj[10][10];
 public:
 	metro();
 	void addEst();
 	void addEsta(estacao e1);
 	void addLink();
+	void addLink(string tem1,string tem2);
 	void removeEst();
 	void imprime(int valor);
 	void buscaest(string sigla);
@@ -76,6 +75,20 @@ metro::metro() {
 		}
 	}
 };
+void metro::addLink(string tem1, string tem2) {
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getSigla() == tem1) {
+			for (int j = 0; j < lista.size(); j++) {
+				if (lista[j].getSigla() == tem2) {
+					matrizadj[i][j] = 1;
+					matrizadj[j][i] = 1;
+					lista[i].setLink(tem2);
+					lista[j].setLink(tem1);
+				}
+			}
+		}
+	}
+}
 void metro::addEsta(estacao e1) {
 	lista.push_back(e1);
 }
@@ -101,11 +114,12 @@ void metro::addLink() {
 		if (lista[i].getSigla() == aux) {
 			cout << "Digite a sigla da estacao que deseja adicionar" << endl;
 			cin >> aux2;
-			lista[i].setLink(aux2);
 			for (int j = 0; j < lista.size(); j++) {
 				if (lista[j].getSigla() == aux2) {
 					matrizadj[i][j] = 1;
 					matrizadj[j][i] = 1;
+					lista[i].setLink(aux2);
+					lista[j].setLink(aux);
 				}
 			}
 		}
@@ -135,8 +149,8 @@ void metro::imprime(int valor) {
 		}
 		cout << "matriz:"<<endl;
 		//matriz
-		for (int i = 0; i < 26; i++) {
-			for (int j = 0; j < 26; j++) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
 				cout<<matrizadj[i][j]<<" ";
 			}
 			cout << endl;
@@ -144,8 +158,8 @@ void metro::imprime(int valor) {
 		cout << endl << "caso nao apareca nada e porque nao ha estacoes adicionadas" << endl;
 		break;
 	case 1://matriz
-		for (int i = 0; i < 26; i++) {
-			for (int j = 0; j < 26; j++) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
 				cout << matrizadj[i][j] << " ";
 			}
 			cout << endl;
@@ -166,7 +180,7 @@ void metro::imprime(int valor) {
 }
 //busca por uma estação
 void metro::buscaest(string sigla) {
-	
+	vector <string>pass;
 	cout<<endl<<"Caso nao tenha aparecido nada e porque nao existe uma estacao com essa sigla"<<endl;
 }
 int main(){
@@ -175,6 +189,9 @@ int main(){
 	o1.addEsta(e1);
 	o1.addEsta(e2);
 	o1.addEsta(e3);
+	o1.addLink("LP","MR");
+	o1.addLink("MR","LZ");
+	o1.addLink("LZ", "LP");
 	int op,op2;
 	string temp;
 	do{
