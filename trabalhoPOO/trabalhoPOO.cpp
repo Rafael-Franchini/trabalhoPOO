@@ -1,7 +1,6 @@
 /*
-Danilo Henrique Muller 		105918
-Rafael Alexandre Lima Franchini  	109179
-Otávio Augusto Delatorre Fadini 	108999
+author dessa coisa feia:
+Rafael F.
 */
 #include <iostream>
 #include <string>
@@ -26,7 +25,15 @@ public:
 	string getNome();
 	string getSigla();
 	string getLink();
+	void removelink(string sigla);
 };
+void estacao::removelink(string sigla) {
+	for (int i = 0; i < link.size(); i++) {
+		if (link[i] == sigla) {
+			link.erase(link.begin() + i);
+		}
+	}
+}
 estacao::estacao(string nome, string sigla) {
 	this->nome = nome;
 	this->sigla = sigla;
@@ -85,10 +92,15 @@ void metro::addLink(string tem1, string tem2) {
 		if (lista[i].getSigla() == tem1) {
 			for (int j = 0; j < lista.size(); j++) {
 				if (lista[j].getSigla() == tem2) {
-					matrizadj[i][j] = 4;
-					matrizadj[j][i] = 4;
-					lista[i].setLink(tem2);
-					lista[j].setLink(tem1);
+					if (tem1 != tem2) {
+						matrizadj[i][j] = 4;
+						matrizadj[j][i] = 4;
+						lista[i].setLink(tem2);
+						lista[j].setLink(tem1);
+					}
+					else {
+						cout<<"Estacoes iguais"<<endl;
+					}
 				}
 			}
 		}
@@ -100,15 +112,21 @@ void metro::addEsta(estacao e1) {
 //adicionar estação
 void metro::addEst() {
 	estacao auxest;
-	string temp;
+	string temp1,temp2;
 	cout <<"Digite o nome da estacao que deseja adicionar" << endl;
-	cin >> temp;
-	auxest.setNome(temp);
+	cin >> temp1;
 	cout << "Digite a sigla da estacao que deseja adicionar" << endl;
-	cin >> temp;
-	auxest.setSigla(temp);
+	cin >> temp2;
+	for (int i = 0; i < lista.size(); i++) {
+		if (temp2 == lista[i].getSigla()) {
+			cout << "Estacao ja existente" << endl;
+			return;
+		}
+	}
+	auxest.setNome(temp1);
+	auxest.setSigla(temp2);
 	lista.push_back(auxest);
-	cout << "estacao adicionado com sucesso"<<endl;
+	cout << "estacao adicionado com sucesso" << endl;
 }
 //add link
 void metro::addLink() {
@@ -122,12 +140,17 @@ void metro::addLink() {
 			cin >> aux2;
 			for (int j = 0; j < lista.size(); j++) {
 				if (lista[j].getSigla() == aux2) {
-					cout << "digite a distancia em KM entre as estações" << endl;
-					cin >> temp;
-					matrizadj[i][j] = temp;
-					matrizadj[j][i] = temp;
-					lista[i].setLink(aux2);
-					lista[j].setLink(aux);
+					if (aux != aux2) {
+						cout << "digite a distancia em KM entre as estações" << endl;
+						cin >> temp;
+						matrizadj[i][j] = temp;
+						matrizadj[j][i] = temp;
+						lista[i].setLink(aux2);
+						lista[j].setLink(aux);
+					}
+					else {
+						cout << "Estacoes iguais" << endl;
+					}
 				}
 			}
 		}
@@ -151,6 +174,10 @@ void metro::removeEst(){
 			lista.erase(lista.begin() + k);
 		}
 	}
+	for (int i = 0; i < lista.size(); i++) {
+		lista[i].removelink(aux);
+	}
+	
 	cout << "estacao removida com sucesso";
 }
 //arestas
@@ -172,7 +199,7 @@ void metro::imprime(int valor) {
 		cout << "lista:" << endl;
 		//lista
 		for (int i = 0; i < lista.size(); i++) {
-			cout<<"estacao: "<< lista[i].getNome() << " sigla: " << lista[i].getSigla() << "Links: " << lista[i].getLink() << endl;
+			cout<<"estacao: "<< lista[i].getNome() << " sigla: " << lista[i].getSigla() << " Links: " << lista[i].getLink() << endl;
 		}
 		cout << "matriz:"<<endl;
 		//matriz
