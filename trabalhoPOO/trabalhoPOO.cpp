@@ -83,6 +83,7 @@ public:
 	void removeEst();
 	void imprime(int valor);
 	void arestas();
+	void removelink();
 	//void buscaest(string sigla);
 };
 metro::metro() {
@@ -146,7 +147,7 @@ void metro::addLink() {
 			for (int j = 0; j < lista.size(); j++) {
 				if (lista[j].getSigla() == aux2) {
 					if (aux != aux2) {
-						cout << "digite a distancia em KM entre as estações" << endl;
+						cout << "digite a distancia em KM entre as estacoes" << endl;
 						cin >> temp;
 						matrizadj[i][j] = temp;
 						matrizadj[j][i] = temp;
@@ -204,7 +205,7 @@ void metro::imprime(int valor) {
 		cout << "lista:" << endl;
 		//lista
 		for (int i = 0; i < lista.size(); i++) {
-			cout<<"estacao: "<< lista[i].getNome() << " sigla: " << lista[i].getSigla() << " Links: " << lista[i].getLink() << endl;
+			cout<<"estacao: "<< lista[i].getNome() << endl << " sigla: " << lista[i].getSigla() << endl << " Links: " << lista[i].getLink() << endl << endl;
 		}
 		cout << "matriz:"<<endl;
 		//matriz
@@ -228,13 +229,30 @@ void metro::imprime(int valor) {
 	case 2://lista
 		cout << "lista:" << endl;
 		for (int i = 0; i < lista.size(); i++) {
-			cout << "estacao: " << lista[i].getNome() << " sigla: " << lista[i].getSigla() << "Links: " << lista[i].getLink() << endl;
+			cout << "estacao: " << lista[i].getNome() << endl << " sigla: " << lista[i].getSigla() << endl << " Links: " << lista[i].getLink() << endl << endl;
 		}
 		cout <<endl <<"caso nao apareca nada e porque nao ha estacoes adicionadas" << endl;
 		break;
 	default:
 		cout << "valor invalido" << endl;
 		break;
+	}
+}
+void metro::removelink() {
+	string aux, aux2;
+	cout<<"digite a sigla da estacao que deseja remover o link"<<endl;
+	cin >> aux;
+	cout<<"digire a sigla da outra estacao que deseja remover o link"<<endl;
+	cin >> aux2;
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getSigla() == aux) {
+			lista[i].removelink(aux2);
+		}
+	}
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getSigla() == aux2) {
+			lista[i].removelink(aux);
+		}
 	}
 }
 //busca por uma estação
@@ -264,6 +282,8 @@ int main(){
 			<< "7  encontrar o minimo de arestas que constroem o mesmo sistema metroviario " << endl
 			<< "8  imprimir o sistema metroviario criado(o usuario escolhe se quer a lista ou a matriz adjacencia)" << endl
 			<< "9  Adicionar link a uma estacao" << endl
+			<< "10 remove link da estacao" << endl
+			<< "11 Limpa console" << endl
 			<< "Digite o numero da opcao desejada:" << endl;
 		cin >> op;
 		switch (op){
@@ -302,6 +322,13 @@ int main(){
 			case 9:
 				cout << endl <<"Voce escolheu adicionar link"<<endl;
 				o1.addLink();
+				break;
+			case 10:
+				cout << endl << "Voce escolheu remover link" << endl;
+				o1.removelink();
+				break;
+			case 11:
+				system("cls");
 				break;
 			default:
 				cout << endl <<"Opção invalida tente novamente"<<endl;
