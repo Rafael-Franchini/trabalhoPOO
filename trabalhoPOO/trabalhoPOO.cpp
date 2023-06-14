@@ -68,7 +68,7 @@ string estacao::getLink() {
 class metro {
 private:
 	vector <estacao> lista;
-	int matrizadj[10][10];
+	int matrizadj[15][15];
 public:
 	metro();
 	void addEst();
@@ -81,8 +81,8 @@ public:
 	//void buscaest(string sigla);
 };
 metro::metro() {
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
+	for (int i = 0; i < 15; i++) {
+		for (int j = 0; j < 15; j++) {
 			matrizadj[i][j] = 0;
 		}
 	}
@@ -183,8 +183,8 @@ void metro::removeEst(){
 //arestas
 void metro::arestas() {
 	int temp=0;
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
+	for (int i = 0; i < 15; i++) {
+		for (int j = 0; j < 15; j++) {
 			if (matrizadj[i][j] > 0 && matrizadj[j][i] > 0) {
 				temp+=1;
 			}
@@ -203,8 +203,8 @@ void metro::imprime(int valor) {
 		}
 		cout << "matriz:"<<endl;
 		//matriz
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
 				cout<<matrizadj[i][j]<<" ";
 			}
 			cout << endl;
@@ -212,8 +212,8 @@ void metro::imprime(int valor) {
 		cout << endl << "caso nao apareca nada e porque nao ha estacoes adicionadas" << endl;
 		break;
 	case 1://matriz
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
 				cout << matrizadj[i][j] << " ";
 			}
 			cout << endl;
